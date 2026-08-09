@@ -1,4 +1,3 @@
-````markdown
 # Day 1 – Verilog RTL Design and Functional Simulation
 
 ## Objective
@@ -45,9 +44,8 @@ A separate, non-synthesizable Verilog file whose only job is to drive inputs int
 ```bash
 sudo apt install iverilog
 sudo apt install gtkwave
-````
 
-### Step 2 — Compile design + testbench
+###Step 2 — Compile design + testbench
 
 ```bash
 cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
