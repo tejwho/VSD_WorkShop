@@ -214,6 +214,3 @@ The extra `dfflibmap` step (compared to Day 1's combinational-only flow) is what
 Day 2 connected the dots between RTL and real silicon: understanding what a `.lib` file actually encodes, seeing how the choice between hierarchical and flattened synthesis trades off runtime, debuggability, and optimization scope, and writing flip-flop RTL in a way that maps cleanly to real sequential cells.
 
 The `dfflibmap` step in particular is a good reminder that sequential elements need their own explicit library mapping — something that becomes more important once designs move past pure combinational logic like Day 1's mux.
-
-```
-
