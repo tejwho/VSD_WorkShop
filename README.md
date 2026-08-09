@@ -41,3 +41,27 @@ RTL-Design-Workshop
     ├── Hierarchial Modules.png
     ├── SKY1300DK.png
     └── Sub_module Ex.png
+
+    Each day contains a dedicated README describing the concepts covered, commands used, design examples, simulation/synthesis procedures, and the corresponding results.
+
+🧰 Tools and Technologies
+Verilog HDL — RTL design and hardware description
+Icarus Verilog — Functional simulation
+GTKWave — Waveform visualization
+Yosys — RTL synthesis and technology mapping
+Sky130 PDK — Open-source standard-cell technology library
+Ubuntu/Linux — Workshop development environment
+🎯 Purpose of the Repository
+
+The purpose of this repository is to maintain a structured record of practical RTL design work and gradually understand the complete digital design flow.
+
+The workshop begins with writing and simulating Verilog RTL and progresses toward synthesis, standard-cell mapping, timing libraries, sequential logic, and eventually digital verification concepts.
+
+This repository will serve both as a learning reference and as a record of practical work completed during the RTL Design and Verification workshop.
+
+👤 Author
+
+S.N. Sriteja
+
+B.Tech ECE
+Anurag University
