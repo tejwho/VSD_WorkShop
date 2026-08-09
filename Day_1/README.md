@@ -1,101 +1,103 @@
+````markdown
 # Day 1 – Verilog RTL Design and Functional Simulation
 
 ## Objective
 
-The first session focused on understanding the basic RTL design and simulation workflow using Verilog HDL.
-
-A simple **2:1 Multiplexer** was selected as the design example. The RTL was written in Verilog, simulated using Icarus Verilog, and the resulting signal transitions were analyzed using GTKWave.
-
-The session also introduced the basic idea of synthesizing RTL using Yosys and observing how the design can be mapped toward standard-cell logic.
+The goal of this experiment was to get hands-on with the basic RTL design and verification flow: writing a simple Verilog module, simulating it with Icarus Verilog (iverilog), and checking its correctness by analyzing the output waveform in GTKWave. A 2:1 Multiplexer was used as the design under test for this exercise, run inside the VSDSquadron VM environment.
 
 ---
 
-## 📑 Contents
+## Contents
 
 1. Core Concepts
-2. Functional Simulation Flow
-3. Lab Environment and Execution
-4. 2:1 Multiplexer Design
-5. Synthesis Overview
-6. Conclusion
+2. Simulation Flow
+3. Lab Setup & Execution
+4. Multiplexer Design
+5. Conclusion
 
 ---
 
-# 1. Core Concepts
+## 1. Core Concepts
 
-### Simulator
+**Simulator**  
+A tool that runs a Verilog design against a set of test inputs in software, so its behavior can be checked before any hardware is built. It's how functional bugs get caught early.
 
-A simulator executes the Verilog design with different input conditions in a software environment. It allows the designer to verify whether the circuit behaves as expected before implementing it on actual hardware.
+**Design**  
+The actual Verilog module — the RTL description of the circuit's logic and how it should behave.
 
-### Design
-
-The design is the actual Verilog RTL module that describes the required hardware functionality.
-
-### Testbench
-
-A testbench is a separate Verilog module used for verification. It provides different input combinations to the design and allows the resulting outputs to be observed.
-
-The testbench is normally not synthesized because its purpose is to verify the design rather than become part of the hardware.
+**Testbench**  
+A separate, non-synthesizable Verilog file whose only job is to drive inputs into the design and let us observe/verify the outputs. It applies primary inputs through a stimulus generator and checks the primary outputs through a stimulus observer, as shown below.
 
 ---
 
-# 2. Functional Simulation Flow
+## 2. Simulation Flow
 
-The basic simulation sequence used during the session was:
+`iverilog` compiles the design and testbench together into a single executable. Running that executable produces a `.vcd` (Value Change Dump) file, which records every signal transition over simulated time. GTKWave reads that file and renders it as waveforms.
 
-```text
-Verilog Design + Testbench
-          ↓
-      Icarus Verilog
-          ↓
-      Simulation
-          ↓
-       .vcd File
-          ↓
-       GTKWave
-          ↓
-    Waveform Analysis
+---
 
-Icarus Verilog compiles the Verilog design together with its testbench.
+## 3. Lab Setup & Execution
 
-The compiled simulation is then executed to generate a VCD (Value Change Dump) file. This file contains the changes in signal values during simulation.
+**Environment:** Ubuntu (VSDSquadron VM), working directory `~/sky130RTLDesignAndSynthesisWorkshop/verilog_files`
 
-GTKWave is then used to open the VCD file and visually examine the waveform.
+### Step 1 — Install the tools
 
-3. Lab Environment and Execution
-Environment
-
-The workshop was performed using the Ubuntu-based VSDSquadron virtual machine environment.
-
-Working directory:
-
-~/sky130RTLDesignAndSynthesisWorkshop/verilog_files
-Installing Icarus Verilog
+```bash
 sudo apt install iverilog
-Installing GTKWave
 sudo apt install gtkwave
-Compiling the Design
+````
+
+### Step 2 — Compile design + testbench
+
+```bash
 cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
 iverilog good_mux.v tb_good_mux.v
-Running the Simulation
+```
+
+### Step 3 — Run the simulation
+
+```bash
 ./a.out
+```
 
-The simulation produces the corresponding VCD waveform file.
+This generates the `.vcd` waveform file.
 
-Opening the Waveform
+### Step 4 — View the waveform
+
+```bash
 gtkwave tb_good_mux.vcd
+```
 
-The waveform can then be examined to verify the behavior of the multiplexer.
+📷 *Waveform output:*
+<img width="1920" height="983" alt="Simulation WF" src="https://github.com/user-attachments/assets/667c90ee-e220-48e5-b134-b1b3892375f1" />
 
-4. 2:1 Multiplexer Design
+---
 
-A 2:1 multiplexer selects one of two input signals depending on the value of the select signal.
+### Step 5 — Synthesize with Yosys (introductory check)
 
-Verilog RTL
+```bash
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog good_mux.v
+synth -top good_mux
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+show
+```
+
+The `show` command generates a Graphviz-based schematic of the synthesized design.
+
+📷 *Netlist output:*
+<img width="1920" height="983" alt="Netlist" src="https://github.com/user-attachments/assets/520fbe35-6325-40be-8b89-83f89a5b6192" />
+
+---
+
+## 4. Multiplexer Design
+
+```verilog
 module good_mux (
-    input i0,
-    input i1,
-    input sel,
+    input  i0,
+    input  i1,
+    input  sel,
     output reg y
 );
 
@@ -107,44 +109,24 @@ always @ (*) begin
 end
 
 endmodule
-Port Description
-Signal	Direction	Function
-i0	Input	Selected when sel = 0
-i1	Input	Selected when sel = 1
-sel	Input	Select/control signal
-y	Output	Multiplexer output
-Working
+```
 
-The always @(*) block is sensitive to changes in any signal used inside it.
+### Ports
 
-When:
+| Signal | Direction | Description             |
+| ------ | --------- | ----------------------- |
+| `i0`   | input     | Selected when `sel = 0` |
+| `i1`   | input     | Selected when `sel = 1` |
+| `sel`  | input     | Select line             |
+| `y`    | output    | Mux output              |
 
-sel = 0 → y = i0
-sel = 1 → y = i1
+**Behavior**
+The `always @(*)` block means the logic re-evaluates any time `i0`, `i1`, or `sel` changes. When `sel = 0`, `y` follows `i0`; when `sel = 1`, `y` follows `i1` — standard 2:1 mux behavior.
 
-Therefore, the output always follows the input selected by the control signal.
+---
 
-5. Synthesis Using Yosys
+## 5. Conclusion
 
-After functional simulation, an introductory synthesis flow was performed using Yosys.
+This lab walked through the core RTL verification loop — design, testbench, compile, simulate, view — using a simple 2:1 mux as the example, and took a first look at synthesis using Yosys with the Sky130 standard cell library. The main takeaway was understanding why each piece exists: the testbench isolates verification from the design itself, and the simulator/GTKWave combo gives a way to catch logic errors before ever touching synthesis.
 
-The Sky130 standard-cell library was loaded before technology mapping.
-
-yosys
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-read_verilog good_mux.v
-synth -top good_mux
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-show
-
-The show command generates a graphical representation of the synthesized design.
-
-The synthesis step gives an initial understanding of how RTL logic can be transformed into lower-level standard-cell structures.
-
-6. Conclusion
-
-Day 1 introduced the fundamental RTL design and verification loop using a 2:1 multiplexer.
-
-The complete process covered writing the Verilog design, creating a testbench, compiling with Icarus Verilog, generating a VCD file, inspecting the waveform using GTKWave, and performing an introductory synthesis using Yosys and the Sky130 library.
-
-This session established the basic workflow required for the more advanced synthesis and sequential-logic concepts covered in the following sessions.
+This sets up the foundation for Day 2 onward, where synthesis and timing come into the picture in more depth.
