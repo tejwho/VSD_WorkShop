@@ -1,67 +1,185 @@
-# RTL Design & Verification Workshop
+# Day 3 – RTL Synthesis Optimizations
 
-A hands-on record of my learning journey through RTL design, Verilog HDL, functional simulation, synthesis, and digital design verification using open-source EDA tools.
+## Overview
 
-This repository documents the concepts explored, practical exercises performed, simulation results, and synthesis experiments carried out during the workshop. The objective is to build a strong understanding of the RTL-to-gate-level design flow and develop a foundation for RTL Design and Digital Verification.
+Day 3 of the VSDIAT RTL Design and Synthesis Workshop focused on understanding how synthesis tools optimize RTL and convert the design into an efficient gate-level implementation.
+
+The experiments covered:
+
+* Combinational logic optimization
+* Boolean simplification
+* Constant propagation
+* Sequential logic optimization
+* Optimization of constant-driven flip-flops
+* Optimization across multiple modules
+* Removal of unused sequential logic
+* SKY130 standard-cell technology mapping
+
+Tools used during the experiments:
+
+* **Verilog HDL** – RTL design
+* **Icarus Verilog** – RTL simulation
+* **GTKWave** – waveform analysis
+* **Yosys** – RTL synthesis and optimization
+* **SKY130 HD** – standard-cell technology mapping
 
 ---
 
-## 📚 Workshop Progress
+## 1. Combinational Logic Optimization
 
-| Session | Topic | Status |
-|--------|-------|--------|
-| Day 1 | Verilog RTL Design & Functional Simulation | ✅ Completed |
-| Day 2 | Timing Libraries, Synthesis & Flip-Flop Coding | ✅ Completed |
-| Day 3 | Combinational & Sequential Optimization | ⏳ Upcoming |
-| Day 4 | Gate-Level Simulation & Blocking vs Non-Blocking | ⏳ Upcoming |
-| Day 5 | Synthesis Optimization Techniques | ⏳ Upcoming |
+### Experiments
 
-More sessions will be documented as the workshop progresses.
+* `opt_check`
+* `opt_check2`
+* `opt_check3`
+* `opt_check4`
+* `multiple_module_opt`
+
+These experiments demonstrate how synthesis optimizes combinational RTL by applying Boolean simplification and mapping the resulting logic to standard cells.
+
+### Key observations
+
+* Simplification of Boolean expressions
+* Removal of redundant logic
+* Mapping of optimized logic to appropriate SKY130 cells
+* Optimization across module boundaries
+
+### SKY130 Technology Mapping
+
+The synthesized designs demonstrate mapping to cells such as:
+
+* `sky130_fd_sc_hd__and2_0`
+* `sky130_fd_sc_hd__or2_0`
+* `sky130_fd_sc_hd__and3_1`
+* `sky130_fd_sc_hd__xnor2_1`
+* `sky130_fd_sc_hd__a21o_1`
 
 ---
 
-## 📂 Repository Structure
+## 2. Sequential Logic Optimization
+
+### Experiments
+
+* `dff_const1`
+* `dff_const2`
+* `dff_const3`
+* `dff_const4`
+* `dff_const5`
+
+These experiments investigate how synthesis optimizes sequential circuits when constant values or constant relationships are present.
+
+RTL simulations were analyzed using GTKWave, followed by synthesis and SKY130 technology mapping using Yosys.
+
+### Key observations
+
+The experiments demonstrate different synthesis outcomes depending on how the flip-flop outputs and sequential states are used.
+
+In some cases, synthesis can propagate constant values and eliminate unnecessary sequential hardware.
+
+In other cases, flip-flops must be retained because their state contributes to the observable behavior of the design.
+
+This provides an important understanding of **sequential constant propagation and state optimization**.
+
+---
+
+## 3. Counter Optimization
+
+### Experiments
+
+* `counter_opt`
+* `counter_opt2`
+
+These experiments demonstrate how synthesis analyzes the observability of sequential state.
+
+### `counter_opt`
+
+The synthesized schematic shows that unnecessary counter state can be removed when it does not contribute to the required output.
+
+### `counter_opt2`
+
+The synthesized schematic retains multiple flip-flops because the corresponding counter state is required by the design outputs.
+
+### Key learning
+
+The amount of hardware synthesized depends not only on the RTL description but also on **which signals are actually observable and required by the design**.
+
+---
+
+## 4. RTL to ASIC Synthesis Flow
+
+The experiments followed the RTL-to-gate synthesis flow:
 
 ```text
-RTL-Design-Workshop
-│
-├── README.md
-│
-├── Day 1
-│   ├── README.md
-│   ├── Netlist.png
-│   └── Simulation WF.png
-│
-└── Day 2
-    ├── README.md
-    ├── Async FF Netlist.png
-    ├── Complete Netlist.png
-    ├── DFF_waveform.png
-    ├── Flatten Netlist.png
-    ├── Hierarchial Modules.png
-    ├── SKY1300DK.png
-    └── Sub_module Ex.png
+Verilog RTL
+     ↓
+RTL Simulation
+     ↓
+Icarus Verilog
+     ↓
+GTKWave
+     ↓
+Yosys Synthesis
+     ↓
+Logic Optimization
+     ↓
+SKY130 Technology Mapping
+     ↓
+Standard-Cell Implementation
+```
 
-    Each day contains a dedicated README describing the concepts covered, commands used, design examples, simulation/synthesis procedures, and the corresponding results.
+---
 
-🧰 Tools and Technologies
-Verilog HDL — RTL design and hardware description
-Icarus Verilog — Functional simulation
-GTKWave — Waveform visualization
-Yosys — RTL synthesis and technology mapping
-Sky130 PDK — Open-source standard-cell technology library
-Ubuntu/Linux — Workshop development environment
-🎯 Purpose of the Repository
+## 5. VLSI / ASIC Perspective
 
-The purpose of this repository is to maintain a structured record of practical RTL design work and gradually understand the complete digital design flow.
+These experiments demonstrate an important principle of RTL design:
 
-The workshop begins with writing and simulating Verilog RTL and progresses toward synthesis, standard-cell mapping, timing libraries, sequential logic, and eventually digital verification concepts.
+> **The way RTL is written directly affects the hardware that synthesis produces.**
 
-This repository will serve both as a learning reference and as a record of practical work completed during the RTL Design and Verification workshop.
+Synthesis performs several transformations to generate an efficient implementation, including:
 
-👤 Author
+* Constant propagation
+* Boolean simplification
+* Redundant logic removal
+* Sequential optimization
+* Dead-state elimination
+* Logic restructuring
+* Technology mapping
 
-S.N. Sriteja
+The final synthesized schematics show how the optimized RTL is implemented using cells from the **SKY130 HD standard-cell library**.
 
-B.Tech ECE
-Anurag University
+Understanding these optimizations is essential for writing RTL that is both **functionally correct and synthesis-friendly**.
+
+---
+
+## 6. Key Takeaways
+
+### Combinational Optimization
+
+* Synthesis can simplify Boolean expressions.
+* Redundant logic can be eliminated.
+* Equivalent logic can be mapped to efficient standard cells.
+
+### Sequential Optimization
+
+* Constant values can propagate through sequential logic.
+* Unnecessary flip-flops can be removed.
+* Functionally important state must be preserved.
+
+### Counter Optimization
+
+* Unused counter bits may be eliminated.
+* Observable counter outputs require the corresponding state elements.
+* Synthesis optimizes hardware based on functional requirements.
+
+### Technology Mapping
+
+* Optimized generic logic is mapped to cells available in the target technology.
+* SKY130 standard cells provide the physical gate-level building blocks for the synthesized design.
+
+---
+
+## 7. Day 3 Completion
+
+**Status: Completed**
+
+Day 3 provided practical understanding of how RTL descriptions are transformed and optimized during synthesis, and how the optimized logic is mapped to SKY130 standard cells.
