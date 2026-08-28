@@ -12,9 +12,9 @@ This repository documents the concepts explored, practical exercises performed, 
 |--------|-------|--------|
 | Day 1 | Verilog RTL Design & Functional Simulation | ✅ Completed |
 | Day 2 | Timing Libraries, Synthesis & Flip-Flop Coding | ✅ Completed |
-| Day 3 | Combinational & Sequential Optimization | ⏳ Upcoming |
-| Day 4 | Gate-Level Simulation & Blocking vs Non-Blocking | ⏳ Upcoming |
-| Day 5 | Synthesis Optimization Techniques | ⏳ Upcoming |
+| Day 3 | Combinational & Sequential Optimization | ✅ Completed |
+| Day 4 | Gate-Level Simulation & Blocking vs Non-Blocking | ✅ Completed |
+| Day 5 | Synthesis Optimization Techniques | ✅ Completed |
 
 More sessions will be documented as the workshop progresses.
 
