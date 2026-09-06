@@ -1,8 +1,6 @@
-# Day-06 — RTL Design Workshop
+# Day-6 - Inception of Open-Source EDA, OpenLane and Sky130 PDK
 
-# Inception of Open-Source EDA, OpenLane and Sky130 PDK
-
-# 1. Overview
+## 1. Overview
 
 Day-06 focuses on understanding the open-source ASIC design ecosystem and the complete RTL-to-GDSII flow using open-source EDA tools.
 
@@ -12,7 +10,7 @@ The practical implementation uses the **PicoRV32A** RISC-V processor core and th
 
 ---
 
-# 2. Open-Source EDA
+## 2. Open-Source EDA
 
 EDA (Electronic Design Automation) tools are software tools used to design, simulate, synthesize, verify and physically implement integrated circuits.
 
@@ -33,7 +31,7 @@ OpenLane integrates several of these tools into an automated RTL-to-GDSII flow.
 
 ---
 
-# 3. Semiconductor Foundry
+## 3. Semiconductor Foundry
 
 A semiconductor foundry manufactures integrated circuits using a particular fabrication technology.
 
@@ -43,7 +41,7 @@ A **Process Design Kit (PDK)** provides the technology-specific information requ
 
 ---
 
-# 4. PDK — Process Design Kit
+## 4. PDK — Process Design Kit
 
 A PDK contains technology files and models required for designing chips for a particular fabrication process.
 
@@ -62,7 +60,7 @@ For this workshop, the **Sky130 PDK** is used.
 
 ---
 
-# 5. Sky130 PDK
+## 5. Sky130 PDK
 
 Sky130 is an open-source 130 nm process design kit associated with SkyWater Technology.
 
@@ -78,7 +76,7 @@ The `hd` library represents the high-density standard-cell library used for impl
 
 ---
 
-# 6. RISC-V
+## 6. RISC-V
 
 RISC-V is an open standard Instruction Set Architecture (ISA).
 
@@ -104,7 +102,7 @@ Transistors
 
 ---
 
-# 7. PicoRV32A
+## 7. PicoRV32A
 
 For the practical implementation, the **PicoRV32A** processor design is used.
 
@@ -114,7 +112,7 @@ The RTL description of the processor is provided as Verilog source code and is p
 
 ---
 
-# 8. OpenLane
+## 8. OpenLane
 
 OpenLane is an automated RTL-to-GDSII design flow that combines several open-source EDA tools.
 
@@ -163,7 +161,7 @@ GDSII
 
 ---
 
-# 9. OpenLane Directory Structure
+## 9. OpenLane Directory Structure
 
 The OpenLane environment contains directories for designs, scripts, PDK-related files, configuration files and individual design runs.
 
@@ -184,7 +182,7 @@ The `config.tcl` file contains the main design configuration, while the `src` di
 
 ---
 
-# 10. Design Configuration
+## 10. Design Configuration
 
 The main configuration file used for PicoRV32A is:
 
@@ -216,7 +214,7 @@ Frequency = 1 / 5 ns
 
 ---
 
-# 11. Design Preparation
+## 11. Design Preparation
 
 OpenLane was launched in interactive mode using:
 
@@ -237,7 +235,7 @@ It also creates a run directory containing intermediate files, reports and logs.
 
 ---
 
-# 12. RTL Synthesis
+## 12. RTL Synthesis
 
 After design preparation, synthesis was performed using:
 
@@ -263,7 +261,7 @@ The resulting reports can be used to understand the size and composition of the 
 
 ---
 
-# 13. Synthesis Statistics
+## 13. Synthesis Statistics
 
 The synthesis report produced the following results:
 
@@ -288,7 +286,7 @@ The design contains **1,613 flip-flops**, indicating the amount of sequential lo
 
 ---
 
-# 14. Detailed Cell Statistics
+## 14. Detailed Cell Statistics
 
 The detailed Yosys synthesis report provides a breakdown of the different cells used in the design.
 
@@ -315,7 +313,7 @@ This cell-level information is useful for understanding how the RTL design has b
 
 ---
 
-# 15. Static Timing Analysis
+## 15. Static Timing Analysis
 
 Static Timing Analysis (STA) is used to determine whether the synthesized design can operate within the specified timing constraints.
 
@@ -347,7 +345,7 @@ A negative TNS indicates the presence of timing violations across multiple paths
 
 ---
 
-# 16. Timing Results
+## 16. Timing Results
 
 The obtained timing results were:
 
@@ -366,7 +364,7 @@ These results provide an important indication that timing optimization would be 
 
 ---
 
-# 17. Physical Design Stages
+## 17. Physical Design Stages
 
 After synthesis, the complete OpenLane flow continues through several physical-design stages.
 
@@ -408,7 +406,7 @@ The final physical layout can be exported as a GDSII file for further manufactur
 
 ---
 
-# 18. OpenLane Flow Commands Used
+## 18. OpenLane Flow Commands Used
 
 The main commands used during the practical are:
 
@@ -432,7 +430,7 @@ The exact available commands can vary depending on the OpenLane version and conf
 
 ---
 
-# 19. Key Learning Outcomes
+## 19. Key Learning Outcomes
 
 Through this practical, I gained an understanding of:
 
@@ -455,7 +453,7 @@ Through this practical, I gained an understanding of:
 
 ---
 
-# 20. Repository Structure
+## 20. Repository Structure
 
 ```text
 Day-6/
@@ -472,7 +470,7 @@ Day-6/
 
 ---
 
-# Conclusion
+## Conclusion
 
 Day-06 provided practical exposure to the open-source ASIC design flow using **OpenLane, Yosys and the Sky130 PDK**.
 
