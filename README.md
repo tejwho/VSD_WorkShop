@@ -254,20 +254,6 @@ VLSI / RTL Design Workshop
 
 🔗 [VSD_WorkShop](https://github.com/tejwho/VSD_WorkShop)
 
-```
-
-### One important correction
-
-I checked your actual Day folders too, so the descriptions above match what you currently have:
-
-- **Day 1:** 2:1 MUX, Icarus Verilog, GTKWave, introductory Yosys synthesis. :contentReference[oaicite:2]{index=2}
-- **Day 2:** SKY130 `.lib`, hierarchical/flattened synthesis and DFF coding. :contentReference[oaicite:3]{index=3}
-- **Day 3:** combinational/sequential optimisation and constant propagation. :contentReference[oaicite:4]{index=4}
-- **Day 4:** RTL → synthesis → gate-level simulation, blocking/non-blocking, sensitivity lists and mismatch. :contentReference[oaicite:5]{index=5}
-- **Day 5:** `if-else`, `case`, latches, loops, MUX/DEMUX and Ripple Carry Adder. :contentReference[oaicite:6]{index=6}
-
-**So don't create another README inside a Day folder.** This one is specifically for the **root of the repository**, alongside `Day-1`, `Day-2`, etc.
-
 Also, I would change the final **Author** line from `S.N. Sriteja` if that's not the exact name you want publicly displayed.
 ```
 
