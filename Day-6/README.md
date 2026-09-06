@@ -2,7 +2,7 @@
 
 # Inception of Open-Source EDA, OpenLane and Sky130 PDK
 
-## 1. Overview
+# 1. Overview
 
 Day-06 focuses on understanding the open-source ASIC design ecosystem and the complete RTL-to-GDSII flow using open-source EDA tools.
 
