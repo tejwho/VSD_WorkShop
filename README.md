@@ -253,8 +253,3 @@ VLSI / RTL Design Workshop
 ## Repository
 
 🔗 [VSD_WorkShop](https://github.com/tejwho/VSD_WorkShop)
-
-Also, I would change the final **Author** line from `S.N. Sriteja` if that's not the exact name you want publicly displayed.
-```
-
-[1]: https://github.com/tejwho/VSD_WorkShop "GitHub - tejwho/VSD_WorkShop: Verilog RTL design, simulation & synthesis using open-source tools — Icarus Verilog, GTKWave, Yosys, Sky130. · GitHub"
