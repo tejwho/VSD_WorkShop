@@ -4,13 +4,18 @@
 
 This repository documents my learning and hands-on work completed during the **VSD RTL Design & Verification Workshop**.
 
-The workshop focuses on RTL design using Verilog, functional simulation, synthesis, logic optimisation, gate-level simulation, and synthesis-friendly RTL coding practices using open-source EDA tools.
+The workshop covers RTL design using Verilog, functional simulation, waveform analysis, synthesis, logic optimisation, Gate-Level Simulation (GLS), synthesis-friendly RTL coding practices, and introductory physical design using open-source EDA tools.
 
-The practical experiments were performed using the **VSDSquadron environment** and tools such as:
+The practical experiments were performed using the **VSDSquadron environment** with tools and technologies including:
 
 - Icarus Verilog
 - GTKWave
 - Yosys
+- OpenLane
+- OpenROAD
+- Magic
+- KLayout
+- OpenSTA
 - SKY130 standard-cell libraries
 
 ---
@@ -31,7 +36,15 @@ The main objectives of this workshop were to:
 - Study blocking and non-blocking assignments
 - Understand incomplete sensitivity lists and simulation-synthesis mismatch
 - Learn proper use of `if-else`, `case`, procedural loops and generate loops
-- Develop synthesis-friendly and scalable RTL coding practices
+- Understand the RTL-to-GDS physical design flow
+- Explore the OpenLane ASIC design flow
+- Understand the SKY130 PDK and standard-cell libraries
+- Study floorplanning, placement and power distribution
+- Understand core, die, utilization factor and aspect ratio
+- Study decoupling capacitors and power planning
+- Understand standard-cell characterization and timing parameters
+- Perform physical layout inspection using Magic
+- Analyse timing reports using OpenSTA
 
 ---
 
@@ -44,6 +57,8 @@ The main objectives of this workshop were to:
 | Day 3 | Combinational & Sequential Logic Optimisation | ✅ Completed |
 | Day 4 | RTL Synthesis & Gate-Level Simulation | ✅ Completed |
 | Day 5 | IF-ELSE, CASE & Looping Constructs | ✅ Completed |
+| Day 6 | Open-Source EDA, OpenLane & SKY130 PDK | ✅ Completed |
+| Day 7 | Sky130 Physical Design: Floorplanning, Placement & Library Cells | ✅ Completed |
 | BabySoC | BabySoC Simulation and Related Experiments | 🔄 Ongoing |
 
 ---
@@ -78,6 +93,26 @@ VSD_WorkShop/
 ├── Day-5/
 │   ├── README.md
 │   └── images/
+│
+├── Day-6/
+│   ├── README.md
+│   └── images/
+│
+├── Day-7/
+│   ├── README.md
+│   └── images/
+│       ├── cell_design.png
+│       ├── core_die.png
+│       ├── decoupling_cap.png
+│       ├── floor_plan.png
+│       ├── floor_plan_comp.png
+│       ├── floorplanning_con.png
+│       ├── magic_res.png
+│       ├── placement_run.png
+│       ├── placement_vis.png
+│       ├── supply_lines.png
+│       ├── synth_comp.png
+│       └── timing_report.png
 │
 └── BabySoc/
 ````
@@ -126,6 +161,24 @@ Study of `if-else`, `case`, inferred latches, overlapping case conditions, synth
 
 ---
 
+## Day 6 – Open-Source EDA, OpenLane & SKY130 PDK
+
+Introduction to open-source ASIC design, OpenLane, the SKY130 PDK, RTL-to-GDS flow, design preparation, synthesis and synthesis result analysis using the PicoRV32 design.
+
+➡️ **[Open Day 6 →](Day-6/)**
+
+---
+
+## Day 7 – Sky130 Physical Design
+
+Study of floorplanning, utilization factor, aspect ratio, core and die, pre-placed cells, decoupling capacitors, power planning, placement, standard-cell libraries, cell characterization and timing characterization.
+
+Practical work includes OpenLane floorplanning, placement, power distribution, Magic layout inspection and timing analysis.
+
+➡️ **[Open Day 7 →](Day-7/)**
+
+---
+
 ## BabySoC
 
 The BabySoC section contains experiments and simulations related to the BabySoC design and its verification flow.
@@ -152,13 +205,33 @@ Used to visualize and analyse simulation waveforms generated in VCD format.
 
 Used for RTL synthesis, logic optimisation and generation of gate-level netlists.
 
+### OpenLane
+
+Used for the automated RTL-to-GDSII physical design flow, including synthesis, floorplanning, placement and related physical-design stages.
+
+### OpenROAD
+
+Used for physical-design operations such as floorplanning, placement and power distribution.
+
+### Magic
+
+Used for physical layout viewing and inspection using the SKY130 technology files.
+
+### KLayout
+
+Used for viewing and generating layout screenshots during the physical-design flow.
+
+### OpenSTA
+
+Used for Static Timing Analysis and timing-report generation.
+
 ### SKY130
 
-Open-source 130 nm process technology and standard-cell libraries used during synthesis and technology mapping.
+Open-source 130 nm process technology and standard-cell libraries used during synthesis, technology mapping and physical design.
 
 ---
 
-# RTL Design Flow
+# RTL to Physical Design Flow
 
 The overall flow explored during the workshop can be summarized as:
 
@@ -190,7 +263,22 @@ Gate-Level Netlist
 Gate-Level Simulation
      │
      ▼
-Waveform Verification
+OpenLane / SKY130
+     │
+     ▼
+Floorplanning
+     │
+     ▼
+Placement
+     │
+     ▼
+Power Distribution
+     │
+     ▼
+Physical Layout
+     │
+     ▼
+Static Timing Analysis
 ```
 
 ---
@@ -219,26 +307,49 @@ Through the workshop, I gained practical understanding of:
 * Loop-based RTL design
 * Generate constructs
 * Synthesis-friendly RTL coding
+* Open-source ASIC design flow
+* OpenLane and SKY130 PDK
+* Floorplanning and core utilization
+* Aspect ratio and die/core concepts
+* Pre-placed cells and decoupling capacitors
+* Power distribution networks
+* Standard-cell placement
+* Congestion-aware placement
+* Standard-cell characterization
+* Propagation delay and transition time
+* Static Timing Analysis
+* Physical layout inspection using Magic
 
 ---
 
 # Screenshots & Results
 
-Each day's folder contains the corresponding experiment documentation, simulation waveforms, synthesized netlists and other supporting screenshots.
+Each day's folder contains the corresponding experiment documentation, simulation waveforms, synthesized netlists, physical-design results and supporting screenshots.
 
-The individual README files provide detailed explanations of the experiments and their results.
+The individual README files provide detailed explanations of the experiments, practical procedures and observed results.
+
+For Day 7, the repository includes practical outputs from:
+
+* Synthesis
+* Floorplanning
+* Placement
+* Power distribution
+* Physical layout inspection
+* Timing analysis
 
 ---
 
 # Workshop Environment
 
-The experiments were carried out in the **VSDSquadron virtual machine environment** using open-source RTL design and synthesis tools.
+The experiments were carried out in the **VSDSquadron virtual machine environment** using open-source RTL design, synthesis and physical-design tools.
+
+The workshop progressed from RTL-level design and verification to synthesis and introductory ASIC physical design using the SKY130 technology.
 
 ---
 
 # Acknowledgement
 
-I would like to thank **VLSI System Design (VSD)** and the workshop instructors for providing the learning resources and practical exposure to RTL design, simulation and synthesis using open-source EDA tools.
+I would like to thank **VLSI System Design (VSD)** and the workshop instructors for providing the learning resources and practical exposure to RTL design, simulation, synthesis and physical design using open-source EDA tools.
 
 ---
 
@@ -252,4 +363,4 @@ VLSI / RTL Design Workshop
 
 ## Repository
 
-🔗 [VSD_WorkShop](https://github.com/tejwho/VSD_WorkShop)
+[VSD_WorkShop on GitHub](https://github.com/tejwho/VSD_WorkShop)
