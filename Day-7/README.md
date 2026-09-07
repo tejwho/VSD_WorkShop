@@ -444,17 +444,8 @@ The important generated physical-design files include:
 
 ---
 
-## Conclusion
+## Repository Structure
 
-This module provided practical exposure to the physical-design stages following synthesis. The PicoRV32 design was taken through floorplanning, placement, power distribution and physical layout inspection using OpenLane, SKY130 and Magic.
-
-The generated reports and layout views demonstrate how a synthesized digital design is transformed into a physically organized ASIC implementation while considering area, placement, power distribution and timing.
-
-````
-
-### Your Day-7 folder is now matched exactly
-
-```text
 Day-7/
 ├── README.md
 └── images/
@@ -470,3 +461,11 @@ Day-7/
     ├── supply_lines.png
     ├── synth_comp.png
     └── timing_report.png
+
+---
+
+## Conclusion
+
+This module provided practical exposure to the physical-design stages following synthesis. The PicoRV32 design was taken through floorplanning, placement, power distribution and physical layout inspection using OpenLane, SKY130 and Magic.
+
+The generated reports and layout views demonstrate how a synthesized digital design is transformed into a physically organized ASIC implementation while considering area, placement, power distribution and timing.
