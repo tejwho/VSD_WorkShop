@@ -1,4 +1,4 @@
-# Day-07 — Sky130 Module 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells
+# Day-7 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells
 
 ## Overview
 
