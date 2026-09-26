@@ -16,6 +16,7 @@ The practical experiments were performed using the **VSDSquadron environment** w
 - Magic
 - KLayout
 - OpenSTA
+- ngspice
 - SKY130 standard-cell libraries
 
 ---
@@ -44,6 +45,11 @@ The main objectives of this workshop were to:
 - Study decoupling capacitors and power planning
 - Understand standard-cell characterization and timing parameters
 - Perform physical layout inspection using Magic
+- Perform Design Rule Check (DRC) using Magic
+- Extract layout information into a SPICE-compatible netlist
+- Perform post-layout SPICE simulation using ngspice
+- Characterize a CMOS inverter using Voltage Transfer Characteristics (VTC)
+- Measure switching threshold voltage, rise time, fall time and propagation delays
 - Analyse timing reports using OpenSTA
 
 ---
@@ -59,6 +65,7 @@ The main objectives of this workshop were to:
 | Day 5 | IF-ELSE, CASE & Looping Constructs | ✅ Completed |
 | Day 6 | Open-Source EDA, OpenLane & SKY130 PDK | ✅ Completed |
 | Day 7 | Sky130 Physical Design: Floorplanning, Placement & Library Cells | ✅ Completed |
+| Day 8 | Design Library Cell using Magic Layout & ngspice Characterization | ✅ Completed |
 | BabySoC | BabySoC Simulation and Related Experiments | 🔄 Ongoing |
 
 ---
@@ -113,6 +120,20 @@ VSD_WorkShop/
 │       ├── supply_lines.png
 │       ├── synth_comp.png
 │       └── timing_report.png
+│
+├── Day-8/
+│   ├── README.md
+│   └── images/
+│       ├── cmos_inverter_structure.png
+│       ├── SK1_SPICE_Deck_and_Simulation.png
+│       ├── SK1_L3_Switching_Threshold_Vm.jpg
+│       ├── SK1_L3_Switching_Threshold_VTC.png
+│       ├── SK2_Complete_CMOS_Process_Flow.png
+│       ├── SK3_L1_Magic_Layout_DRC_Clean.png
+│       ├── SK3_L2_SPICE_Extraction.png
+│       ├── SK3_L3_Post_Layout_Transient.png
+│       ├── SK3_L4_Dynamic_Characterization.jpg
+│       └── SK3_Metal3_DRC_Rules.png
 │
 └── BabySoc/
 ````
@@ -171,11 +192,59 @@ Introduction to open-source ASIC design, OpenLane, the SKY130 PDK, RTL-to-GDS fl
 
 ## Day 7 – Sky130 Physical Design
 
-Study of floorplanning, utilization factor, aspect ratio, core and die, pre-placed cells, decoupling capacitors, power planning, placement, standard-cell libraries, cell characterization and timing characterization.
+Study of floorplanning, utilization factor, aspect ratio, core and die, pre-placed cells, decoupling capacitors, power planning, placement, standard-cell libraries, cell design and timing characterization.
 
 Practical work includes OpenLane floorplanning, placement, power distribution, Magic layout inspection and timing analysis.
 
 ➡️ **[Open Day 7 →](Day-7/)**
+
+---
+
+## Day 8 – Design Library Cell using Magic Layout and ngspice Characterization
+
+This module focuses on the design, layout verification, extraction and characterization of a CMOS inverter using the **SKY130A technology**, **Magic** and **ngspice**.
+
+The practical work covers:
+
+* CMOS inverter structure and operation
+* SPICE deck creation
+* DC simulation
+* Voltage Transfer Characteristic (VTC)
+* Switching threshold voltage measurement
+* CMOS fabrication and layout concepts
+* SKY130 technology
+* CMOS inverter layout using Magic
+* Design Rule Check (DRC)
+* Metal3 design rules
+* Layout extraction
+* SPICE netlist generation
+* Post-layout transient simulation
+* Dynamic characterization
+* Rise time and fall time measurement
+* Propagation delay measurement
+
+The final layout verification reported:
+
+```text
+Total DRC errors found: 0
+```
+
+The measured switching threshold voltage was:
+
+```text
+Vm = 1.329304 V
+```
+
+The dynamic characterization results were:
+
+| Parameter | Measured Value |
+| --------- | -------------- |
+| Rise Time | 57.99 ps       |
+| Fall Time | 39.90 ps       |
+| TPHL      | 26.19 ps       |
+| TPLH      | 55.23 ps       |
+
+➡️ **[Open Day 8 →](Day-8/)**
 
 ---
 
@@ -215,7 +284,7 @@ Used for physical-design operations such as floorplanning, placement and power d
 
 ### Magic
 
-Used for physical layout viewing and inspection using the SKY130 technology files.
+Used for physical layout viewing, inspection, Design Rule Check (DRC), layout extraction and interaction with SKY130 technology files.
 
 ### KLayout
 
@@ -225,9 +294,13 @@ Used for viewing and generating layout screenshots during the physical-design fl
 
 Used for Static Timing Analysis and timing-report generation.
 
+### ngspice
+
+Used for SPICE-level circuit simulation, Voltage Transfer Characteristic analysis, post-layout simulation and dynamic characterization of the CMOS inverter library cell.
+
 ### SKY130
 
-Open-source 130 nm process technology and standard-cell libraries used during synthesis, technology mapping and physical design.
+Open-source 130 nm process technology and standard-cell libraries used during synthesis, technology mapping, physical design, layout and cell characterization.
 
 ---
 
@@ -278,6 +351,18 @@ Power Distribution
 Physical Layout
      │
      ▼
+Magic DRC
+     │
+     ▼
+Layout Extraction
+     │
+     ▼
+Post-Layout SPICE
+     │
+     ▼
+ngspice Characterization
+     │
+     ▼
 Static Timing Analysis
 ```
 
@@ -318,7 +403,19 @@ Through the workshop, I gained practical understanding of:
 * Standard-cell characterization
 * Propagation delay and transition time
 * Static Timing Analysis
-* Physical layout inspection using Magic
+* CMOS inverter structure and operation
+* CMOS fabrication and layout concepts
+* SKY130 technology files
+* Physical layout using Magic
+* Design Rule Check (DRC)
+* Metal3 design rules
+* Layout extraction
+* SPICE netlist generation
+* Post-layout SPICE simulation
+* ngspice-based cell characterization
+* Switching threshold voltage measurement
+* Rise time and fall time measurement
+* Propagation delay measurement
 
 ---
 
@@ -328,28 +425,47 @@ Each day's folder contains the corresponding experiment documentation, simulatio
 
 The individual README files provide detailed explanations of the experiments, practical procedures and observed results.
 
-For Day 7, the repository includes practical outputs from:
+### Day 7
+
+The repository includes practical outputs from:
 
 * Synthesis
 * Floorplanning
 * Placement
 * Power distribution
 * Physical layout inspection
+* Standard-cell characterization
 * Timing analysis
+
+### Day 8
+
+The repository includes practical outputs from:
+
+* CMOS inverter structure
+* SPICE deck creation
+* DC simulation and VTC
+* Switching threshold measurement
+* CMOS process flow
+* Magic layout
+* DRC verification
+* Metal3 design rules
+* SPICE extraction
+* Post-layout transient simulation
+* Dynamic characterization
 
 ---
 
 # Workshop Environment
 
-The experiments were carried out in the **VSDSquadron virtual machine environment** using open-source RTL design, synthesis and physical-design tools.
+The experiments were carried out in the **VSDSquadron virtual machine environment** using open-source RTL design, synthesis, physical-design and circuit-simulation tools.
 
-The workshop progressed from RTL-level design and verification to synthesis and introductory ASIC physical design using the SKY130 technology.
+The workshop progressed from RTL-level design and verification to synthesis, ASIC physical design, custom library-cell layout and SPICE characterization using the SKY130 technology.
 
 ---
 
 # Acknowledgement
 
-I would like to thank **VLSI System Design (VSD)** and the workshop instructors for providing the learning resources and practical exposure to RTL design, simulation, synthesis and physical design using open-source EDA tools.
+I would like to thank **VLSI System Design (VSD)** and the workshop instructors for providing the learning resources and practical exposure to RTL design, simulation, synthesis, physical design and standard-cell characterization using open-source EDA tools.
 
 ---
 
@@ -364,3 +480,6 @@ VLSI / RTL Design Workshop
 ## Repository
 
 [VSD_WorkShop on GitHub](https://github.com/tejwho/VSD_WorkShop)
+
+````
+
