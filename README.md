@@ -480,6 +480,3 @@ VLSI / RTL Design Workshop
 ## Repository
 
 [VSD_WorkShop on GitHub](https://github.com/tejwho/VSD_WorkShop)
-
-````
-
