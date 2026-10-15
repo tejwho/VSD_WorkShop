@@ -1,4 +1,4 @@
-# Day 10 – Physical Design Capstone: Power Planning, CTS, Timing & Routing (Module 5)
+# Day 10 – Physical Design Capstone: Power Planning, CTS, Timing & Routing
 
 ## Objective
 
