@@ -1,482 +1,129 @@
-# VSD RTL Design & Verification Workshop
+# Day 10 – Physical Design (PD)
 
-## About the Workshop
+This folder documents Physical Design (PD) topics using the supplied workshop images. It focuses on macro-cell floorplanning, routing approaches, routing topology, maze routing, and Design Rule Checking (DRC).
 
-This repository documents my learning and hands-on work completed during the **VSD RTL Design & Verification Workshop**.
+> **Note:** The images are linked from the local `images/` directory. Keep that directory beside this README so the images render correctly on GitHub.
 
-The workshop covers RTL design using Verilog, functional simulation, waveform analysis, synthesis, logic optimisation, Gate-Level Simulation (GLS), synthesis-friendly RTL coding practices, and introductory physical design using open-source EDA tools.
+## Contents
 
-The practical experiments were performed using the **VSDSquadron environment** with tools and technologies including:
-
-- Icarus Verilog
-- GTKWave
-- Yosys
-- OpenLane
-- OpenROAD
-- Magic
-- KLayout
-- OpenSTA
-- ngspice
-- SKY130 standard-cell libraries
+- [Macro-cell floorplanning](#1-macro-cell-floorplanning)
+- [Routing approaches and RC delay](#2-routing-approaches-and-rc-delay)
+- [Routing topology algorithm](#3-routing-topology-algorithm)
+- [Maze routing – Lee's algorithm](#4-maze-routing--lees-algorithm)
+- [Design Rule Checking (DRC)](#5-design-rule-checking-drc)
+- [Summary](#6-summary)
+- [References and acknowledgement](#references-and-acknowledgement)
 
 ---
 
-## Workshop Objectives
-
-The main objectives of this workshop were to:
-
-- Understand the RTL design flow using Verilog HDL
-- Perform functional simulation and waveform analysis
-- Understand standard-cell timing libraries
-- Perform RTL synthesis using Yosys
-- Study hierarchical and flattened synthesis
-- Understand flip-flop coding styles
-- Explore combinational and sequential logic optimisation
-- Perform Gate-Level Simulation (GLS)
-- Understand RTL versus synthesized hardware behaviour
-- Study blocking and non-blocking assignments
-- Understand incomplete sensitivity lists and simulation-synthesis mismatch
-- Learn proper use of `if-else`, `case`, procedural loops and generate loops
-- Understand the RTL-to-GDS physical design flow
-- Explore the OpenLane ASIC design flow
-- Understand the SKY130 PDK and standard-cell libraries
-- Study floorplanning, placement and power distribution
-- Understand core, die, utilization factor and aspect ratio
-- Study decoupling capacitors and power planning
-- Understand standard-cell characterization and timing parameters
-- Perform physical layout inspection using Magic
-- Perform Design Rule Check (DRC) using Magic
-- Extract layout information into a SPICE-compatible netlist
-- Perform post-layout SPICE simulation using ngspice
-- Characterize a CMOS inverter using Voltage Transfer Characteristics (VTC)
-- Measure switching threshold voltage, rise time, fall time and propagation delays
-- Analyse timing reports using OpenSTA
-
----
-
-# Workshop Progress
-
-| Day | Topics Covered | Status |
-|-----|----------------|--------|
-| Day 1 | Verilog RTL Design & Functional Simulation | ✅ Completed |
-| Day 2 | Timing Libraries, Synthesis & Flip-Flop Coding | ✅ Completed |
-| Day 3 | Combinational & Sequential Logic Optimisation | ✅ Completed |
-| Day 4 | RTL Synthesis & Gate-Level Simulation | ✅ Completed |
-| Day 5 | IF-ELSE, CASE & Looping Constructs | ✅ Completed |
-| Day 6 | Open-Source EDA, OpenLane & SKY130 PDK | ✅ Completed |
-| Day 7 | Sky130 Physical Design: Floorplanning, Placement & Library Cells | ✅ Completed |
-| Day 8 | Design Library Cell using Magic Layout & ngspice Characterization | ✅ Completed |
-| BabySoC | BabySoC Simulation and Related Experiments | 🔄 Ongoing |
-
----
-
-# Repository Structure
-
-```text
-VSD_WorkShop/
-│
-├── Day-1/
-│   ├── README.md
-│   ├── Netlist.png
-│   └── Simulation WF.png
-│
-├── Day-2/
-│   ├── README.md
-│   ├── Async FF Netlist.png
-│   ├── Complete Netlist.png
-│   ├── DFF_waveform.png
-│   ├── Flatten Netlist.png
-│   ├── Hierarchial Modules.png
-│   └── SKY130DK.png
-│
-├── Day-3/
-│   ├── README.md
-│   └── images/
-│
-├── Day-4/
-│   ├── README.md
-│   └── images/
-│
-├── Day-5/
-│   ├── README.md
-│   └── images/
-│
-├── Day-6/
-│   ├── README.md
-│   └── images/
-│
-├── Day-7/
-│   ├── README.md
-│   └── images/
-│       ├── cell_design.png
-│       ├── core_die.png
-│       ├── decoupling_cap.png
-│       ├── floor_plan.png
-│       ├── floor_plan_comp.png
-│       ├── floorplanning_con.png
-│       ├── magic_res.png
-│       ├── placement_run.png
-│       ├── placement_vis.png
-│       ├── supply_lines.png
-│       ├── synth_comp.png
-│       └── timing_report.png
-│
-├── Day-8/
-│   ├── README.md
-│   └── images/
-│       ├── cmos_inverter_structure.png
-│       ├── SK1_SPICE_Deck_and_Simulation.png
-│       ├── SK1_L3_Switching_Threshold_Vm.jpg
-│       ├── SK1_L3_Switching_Threshold_VTC.png
-│       ├── SK2_Complete_CMOS_Process_Flow.png
-│       ├── SK3_L1_Magic_Layout_DRC_Clean.png
-│       ├── SK3_L2_SPICE_Extraction.png
-│       ├── SK3_L3_Post_Layout_Transient.png
-│       ├── SK3_L4_Dynamic_Characterization.jpg
-│       └── SK3_Metal3_DRC_Rules.png
-│
-└── BabySoc/
-````
+## 1. Macro-cell floorplanning
 
----
+Floorplanning establishes the overall arrangement of the design within the die and core. It considers standard-cell regions, macro/IP placement, power connections, I/O pads, spacing, and routing access.
 
-# Table of Contents
+A macro is a relatively large pre-designed block, such as SRAM, that is placed as a unit. Its position affects congestion, available routing channels, power distribution, and the placement of surrounding standard cells.
 
-## Day 1 – Verilog RTL Design & Functional Simulation
+The illustration below identifies major floorplanning elements, including the macro region, power rings and straps, standard-cell rows, I/O pads, and spacing around the macro.
 
-Introduction to RTL design, testbenches, functional simulation and waveform analysis using a 2:1 multiplexer.
+![Macro-cell floorplanning illustration](images/macro_cell.png)
 
-➡️ **[Open Day 1 →](Day-1/)**
+### Key points
 
----
+- Place macros with sufficient routing access and suitable halo/keep-out spacing.
+- Consider the power network and connections to the macro and standard cells.
+- Leave enough room for I/O access and signal routing.
+- Macro placement should be evaluated together with congestion and timing considerations.
 
-## Day 2 – Timing Libraries, Synthesis & Flip-Flop Coding
+## 2. Routing approaches and RC delay
 
-Study of SKY130 timing libraries, hierarchical and flattened synthesis, and different flip-flop coding styles.
+Routing connects placed pins and cells using the available metal layers and vias. Routing is commonly divided into two broad stages:
 
-➡️ **[Open Day 2 →](Day-2/)**
+- **Global routing / fast routing:** estimates routes and allocates routing resources across the design.
+- **Detailed routing:** creates the actual geometries and vias while obeying technology design rules.
 
----
+The supplied slide gives an overview of fast and detailed routing.
 
-## Day 3 – Logic Optimisation
+![Routing approaches](images/rc_delay.png)
 
-Study of combinational and sequential logic optimisation, constant propagation, Boolean optimisation and optimisation of sequential logic.
+### Why RC matters
 
-➡️ **[Open Day 3 →](Day-3/)**
+Interconnects introduce resistance (R) and capacitance (C). These parasitics can increase signal delay and affect transition time. Longer routes, extra vias, and congestion can increase parasitic effects.
 
----
+After routing, extracted parasitics can be used for more realistic timing analysis than estimates made before detailed routing. The exact delay values depend on the design, routing, libraries, and analysis setup; no numerical delay result is asserted here.
 
-## Day 4 – RTL to Gate-Level Simulation
+## 3. Routing topology algorithm
 
-Study of RTL simulation, Yosys synthesis, standard-cell mapping, gate-level netlists, Gate-Level Simulation, blocking/non-blocking assignments and simulation-synthesis mismatch.
+A routing topology describes how connections are organized before or during detailed geometric routing. Topology optimization aims to choose a useful connection structure while considering routing cost and constraints.
 
-➡️ **[Open Day 4 →](Day-4/)**
+The supplied slide shows pseudocode for a routing-topology optimization algorithm.
 
----
+![Routing topology algorithm](images/routing_topo.png)
 
-## Day 5 – RTL Coding Constructs
+### General idea
 
-Study of `if-else`, `case`, inferred latches, overlapping case conditions, synthesis optimisation, procedural loops, generate loops, MUX, DEMUX and Ripple Carry Adder designs.
+1. Consider candidate connection structures.
+2. Estimate the cost of each candidate using the chosen routing-cost model.
+3. Compare candidate costs and select an improved topology.
+4. Pass the selected topology to subsequent routing steps.
 
-➡️ **[Open Day 5 →](Day-5/)**
+The precise algorithm and cost function should be interpreted from the workshop material shown in the image; this README does not claim a particular numerical outcome.
 
----
+## 4. Maze routing – Lee's algorithm
 
-## Day 6 – Open-Source EDA, OpenLane & SKY130 PDK
+Maze routing searches for a path between a source and a target on a routing grid. Lee's algorithm is a classic breadth-first search approach:
 
-Introduction to open-source ASIC design, OpenLane, the SKY130 PDK, RTL-to-GDS flow, design preparation, synthesis and synthesis result analysis using the PicoRV32 design.
+1. Mark the source grid location.
+2. Expand to legal neighboring grid locations in successive wavefronts.
+3. Continue until the target is reached or no legal path remains.
+4. Trace backward through the wavefront labels to recover a path.
+5. Convert the grid path into routing geometry and check constraints.
 
-➡️ **[Open Day 6 →](Day-6/)**
+![Maze routing using Lee's algorithm](images/maze_rout.png)
 
----
+### Advantages and limitations
 
-## Day 7 – Sky130 Physical Design
+**Advantages**
+- Finds a shortest path in number of grid steps when all moves have equal cost.
+- Systematic and straightforward to understand.
 
-Study of floorplanning, utilization factor, aspect ratio, core and die, pre-placed cells, decoupling capacitors, power planning, placement, standard-cell libraries, cell design and timing characterization.
+**Limitations**
+- Can explore many grid locations and consume memory.
+- Real routing must also account for obstacles, layer changes, design rules, congestion, and routing cost.
 
-Practical work includes OpenLane floorplanning, placement, power distribution, Magic layout inspection and timing analysis.
+## 5. Design Rule Checking (DRC)
 
-➡️ **[Open Day 7 →](Day-7/)**
+DRC checks whether the physical layout satisfies the manufacturing rules for the target process. Examples include minimum width, spacing, enclosure, via, and area requirements.
 
----
+The supplied screenshots are labelled as DRC-clean views. They are included as workshop evidence/illustrations; the exact tool report and rule-deck context are not included in this image set, so no independent verification of a complete sign-off run is claimed.
 
-## Day 8 – Design Library Cell using Magic Layout and ngspice Characterization
+### DRC result view
 
-This module focuses on the design, layout verification, extraction and characterization of a CMOS inverter using the **SKY130A technology**, **Magic** and **ngspice**.
+![DRC result view](images/drc_res.png)
 
-The practical work covers:
+### Final DRC view
 
-* CMOS inverter structure and operation
-* SPICE deck creation
-* DC simulation
-* Voltage Transfer Characteristic (VTC)
-* Switching threshold voltage measurement
-* CMOS fabrication and layout concepts
-* SKY130 technology
-* CMOS inverter layout using Magic
-* Design Rule Check (DRC)
-* Metal3 design rules
-* Layout extraction
-* SPICE netlist generation
-* Post-layout transient simulation
-* Dynamic characterization
-* Rise time and fall time measurement
-* Propagation delay measurement
+![Final DRC view](images/final_drc.png)
 
-The final layout verification reported:
+### Why DRC is important
 
-```text
-Total DRC errors found: 0
-```
+- Detects layout geometries that violate process rules.
+- Helps prevent manufacturing defects caused by invalid widths, spacing, enclosures, or vias.
+- DRC cleanliness is one part of physical verification; it does not by itself prove timing closure, LVS correctness, or complete sign-off.
 
-The measured switching threshold voltage was:
+## 6. Summary
 
-```text
-Vm = 1.329304 V
-```
+This Day 10 PD image set covers:
 
-The dynamic characterization results were:
+- Macro-cell floorplanning and the relationship between macros, standard cells, power structures, and I/O.
+- Fast/global routing versus detailed routing.
+- Routing topology optimization as a way to organize connections.
+- Maze routing using Lee's algorithm.
+- DRC checks and the importance of validating final layout geometry.
 
-| Parameter | Measured Value |
-| --------- | -------------- |
-| Rise Time | 57.99 ps       |
-| Fall Time | 39.90 ps       |
-| TPHL      | 26.19 ps       |
-| TPLH      | 55.23 ps       |
+The key takeaway is that physical design is an iterative process: floorplanning influences congestion and routing, routing introduces parasitic effects, and verification checks whether the resulting geometry meets the relevant constraints.
 
-➡️ **[Open Day 8 →](Day-8/)**
+## References and acknowledgement
 
----
+- [RTL Design Workshop – PD_MODULE_5](https://github.com/afraajabeen-creator/RTL_Design_Workshop/tree/main/PD_MODULE_5)
+- [VSD Workshop – Day 10 PD](https://github.com/Ganesh-Koushal/VSD-WorkShop/tree/main/Day%2010%20PD)
 
-## BabySoC
-
-The BabySoC section contains experiments and simulations related to the BabySoC design and its verification flow.
-
-➡️ **[Open BabySoC →](BabySoc/)**
-
----
-
-# Tools & Technologies
-
-### Verilog HDL
-
-Used for describing digital hardware at the Register Transfer Level (RTL).
-
-### Icarus Verilog
-
-Used for compiling and simulating Verilog RTL designs.
-
-### GTKWave
-
-Used to visualize and analyse simulation waveforms generated in VCD format.
-
-### Yosys
-
-Used for RTL synthesis, logic optimisation and generation of gate-level netlists.
-
-### OpenLane
-
-Used for the automated RTL-to-GDSII physical design flow, including synthesis, floorplanning, placement and related physical-design stages.
-
-### OpenROAD
-
-Used for physical-design operations such as floorplanning, placement and power distribution.
-
-### Magic
-
-Used for physical layout viewing, inspection, Design Rule Check (DRC), layout extraction and interaction with SKY130 technology files.
-
-### KLayout
-
-Used for viewing and generating layout screenshots during the physical-design flow.
-
-### OpenSTA
-
-Used for Static Timing Analysis and timing-report generation.
-
-### ngspice
-
-Used for SPICE-level circuit simulation, Voltage Transfer Characteristic analysis, post-layout simulation and dynamic characterization of the CMOS inverter library cell.
-
-### SKY130
-
-Open-source 130 nm process technology and standard-cell libraries used during synthesis, technology mapping, physical design, layout and cell characterization.
-
----
-
-# RTL to Physical Design Flow
-
-The overall flow explored during the workshop can be summarized as:
-
-```text
-Verilog RTL
-     │
-     ▼
-Testbench
-     │
-     ▼
-RTL Simulation
-     │
-     ▼
-Waveform Analysis
-     │
-     ▼
-Yosys Synthesis
-     │
-     ▼
-Logic Optimisation
-     │
-     ▼
-Technology Mapping
-     │
-     ▼
-Gate-Level Netlist
-     │
-     ▼
-Gate-Level Simulation
-     │
-     ▼
-OpenLane / SKY130
-     │
-     ▼
-Floorplanning
-     │
-     ▼
-Placement
-     │
-     ▼
-Power Distribution
-     │
-     ▼
-Physical Layout
-     │
-     ▼
-Magic DRC
-     │
-     ▼
-Layout Extraction
-     │
-     ▼
-Post-Layout SPICE
-     │
-     ▼
-ngspice Characterization
-     │
-     ▼
-Static Timing Analysis
-```
-
----
-
-# Key Learning Outcomes
-
-Through the workshop, I gained practical understanding of:
-
-* RTL design using Verilog
-* Testbench-based verification
-* Functional simulation
-* VCD waveform generation
-* GTKWave waveform analysis
-* SKY130 timing libraries
-* RTL synthesis using Yosys
-* Hierarchical and flattened synthesis
-* Flip-flop inference
-* Combinational logic optimisation
-* Sequential logic optimisation
-* Gate-level netlist generation
-* Gate-Level Simulation
-* Blocking vs non-blocking assignments
-* Sensitivity lists
-* Simulation-synthesis mismatch
-* `if-else` and `case` coding styles
-* Loop-based RTL design
-* Generate constructs
-* Synthesis-friendly RTL coding
-* Open-source ASIC design flow
-* OpenLane and SKY130 PDK
-* Floorplanning and core utilization
-* Aspect ratio and die/core concepts
-* Pre-placed cells and decoupling capacitors
-* Power distribution networks
-* Standard-cell placement
-* Congestion-aware placement
-* Standard-cell characterization
-* Propagation delay and transition time
-* Static Timing Analysis
-* CMOS inverter structure and operation
-* CMOS fabrication and layout concepts
-* SKY130 technology files
-* Physical layout using Magic
-* Design Rule Check (DRC)
-* Metal3 design rules
-* Layout extraction
-* SPICE netlist generation
-* Post-layout SPICE simulation
-* ngspice-based cell characterization
-* Switching threshold voltage measurement
-* Rise time and fall time measurement
-* Propagation delay measurement
-
----
-
-# Screenshots & Results
-
-Each day's folder contains the corresponding experiment documentation, simulation waveforms, synthesized netlists, physical-design results and supporting screenshots.
-
-The individual README files provide detailed explanations of the experiments, practical procedures and observed results.
-
-### Day 7
-
-The repository includes practical outputs from:
-
-* Synthesis
-* Floorplanning
-* Placement
-* Power distribution
-* Physical layout inspection
-* Standard-cell characterization
-* Timing analysis
-
-### Day 8
-
-The repository includes practical outputs from:
-
-* CMOS inverter structure
-* SPICE deck creation
-* DC simulation and VTC
-* Switching threshold measurement
-* CMOS process flow
-* Magic layout
-* DRC verification
-* Metal3 design rules
-* SPICE extraction
-* Post-layout transient simulation
-* Dynamic characterization
-
----
-
-# Workshop Environment
-
-The experiments were carried out in the **VSDSquadron virtual machine environment** using open-source RTL design, synthesis, physical-design and circuit-simulation tools.
-
-The workshop progressed from RTL-level design and verification to synthesis, ASIC physical design, custom library-cell layout and SPICE characterization using the SKY130 technology.
-
----
-
-# Acknowledgement
-
-I would like to thank **VLSI System Design (VSD)** and the workshop instructors for providing the learning resources and practical exposure to RTL design, simulation, synthesis, physical design and standard-cell characterization using open-source EDA tools.
-
----
-
-# Author
-
-**S.N. Sriteja**
-
-VLSI / RTL Design Workshop
-
----
-
-## Repository
-
-[VSD_WorkShop on GitHub](https://github.com/tejwho/VSD_WorkShop)
+This documentation is organized from the images supplied for this repository and is intended as workshop notes. Credit for the workshop material belongs to its original instructors and authors.
