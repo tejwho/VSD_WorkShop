@@ -4,6 +4,12 @@ A hands-on record of my progress in **RTL design, functional verification, synth
 
 This repository brings together day-wise workshop notes, practical screenshots, command outputs, simulation results, and assessment reports. Each module has its own README, and screenshots are kept in that module's `images/` folder where applicable.
 
+## Project Walkthrough Video
+
+Watch my project walkthrough covering Days 1–10 and the BabySoC guided project, from RTL design and synthesis through pre-layout STA, physical design, and post-route STA.
+
+**[Watch the Project Walkthrough Video](https://drive.google.com/file/d/19dX2ne2JLxojZk3ZUfVol3RJwQBXbefF/view?usp=sharing)**
+
 ---
 
 ## About the Workshop
