@@ -1,24 +1,12 @@
 # Hybrid Fault-Aware Railway Level Crossing Controller
 
-### Modular Verilog RTL Design \| Functional Verification \| RTL-to-GDSII Implementation
+### Modular Verilog RTL Design | Functional Verification | RTL-to-GDSII Implementation
 
-```{=html}
-<p align="center">
-```
-`<img src="images/final-layout.jpg" alt="Final top_module GDSII layout in KLayout" width="800">`{=html}
-```{=html}
-</p>
-```
-```{=html}
-<p align="center">
-```
-`<b>`{=html}Finite-State Control • Timeout Supervision • Fault Recovery
-• ASIC Physical Design`</b>`{=html}
-```{=html}
-</p>
-```
+![Final top_module GDSII layout in KLayout](images/final-layout.jpg)
 
-------------------------------------------------------------------------
+**Finite-State Control • Timeout Supervision • Fault Recovery • ASIC Physical Design**
+
+---
 
 ## 1. Project Overview
 
