@@ -2,8 +2,6 @@
 
 ### Modular Verilog RTL Design | Functional Verification | RTL-to-GDSII Implementation
 
-![Final top_module GDSII layout in KLayout](images/final-layout.jpg)
-
 **Finite-State Control • Timeout Supervision • Fault Recovery • ASIC Physical Design**
 
 ---
