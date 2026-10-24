@@ -6,6 +6,12 @@
 
 ---
 
+## Project Demonstration Video
+
+A video walkthrough of the Railway Level Crossing Controller, covering the system architecture, FSM operation, functional verification, GTKWave waveform analysis, OpenLane physical-design flow, static timing analysis, and physical-verification results.
+
+**[Watch the Project Demonstration Video](https://drive.google.com/file/d/1QGLZFo7YmQ0XPqXUzTitmQRs7C8ncnEX/view?usp=sharing)**
+
 ## 1. Project Overview
 
 This project implements a railway level-crossing controller in Verilog
