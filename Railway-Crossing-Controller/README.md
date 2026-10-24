@@ -306,7 +306,40 @@ constraints.
 *Figure 4 --- OpenLane terminal showing the successful completion
 message.*
 
-## 10. Physical-Design Results
+## 10. Static Timing Analysis (STA)
+
+The OpenLane run completed successfully. The screenshots below capture timing paths from the configured fast-minimum / slow-maximum STA analysis.
+
+| Check | Reported slack | Status |
+|---|---:|---|
+| Reset removal | +1.96 ns | MET |
+| Register-to-register hold | +0.32 ns | MET |
+| Reset recovery | +7.60 ns | MET |
+| `road_red` output path | +5.01 ns | MET |
+
+### Timing evidence
+
+**Timing summary**
+
+![STA timing summary](images/sta_timing_summary.jpg)
+
+**Reset removal path**
+
+![Reset removal timing path](images/sta_reset_removal.jpg)
+
+**Register-to-register hold path**
+
+![Register hold timing path](images/sta_register_hold.jpg)
+
+**Reset recovery path**
+
+![Reset recovery timing path](images/sta_reset_recovery.jpg)
+
+**`road_red` output timing path**
+
+![road_red output timing path](images/sta_road_red_output.jpg)
+
+## 11. Physical-Design Results
 
 The saved manufacturability report records these results for the
 inspected run:
@@ -356,7 +389,7 @@ this warning is disclosed rather than treating the CVC log as clean.
 The saved summary report is available at
 `results/final_summary_report.csv`.
 
-## 11. Tools and Technologies
+## 12. Tools and Technologies
 
   Tool / technology   Role
   ------------------- ------------------------------------
@@ -371,7 +404,7 @@ The saved summary report is available at
   Linux / Ubuntu      Development environment.
   GitHub              Source control and documentation.
 
-## 12. Reproducing the Simulation
+## 13. Reproducing the Simulation
 
 Run these commands from the project root in a Linux environment with
 Icarus Verilog installed.
@@ -409,7 +442,7 @@ the design configuration, and the helper-tool setup used by the original
 environment. The committed CSV is a report from the original run;
 copying it into the repository does not rerun the flow.
 
-## 13. Limitations and Future Work
+## 14. Limitations and Future Work
 
 Potential extensions include:
 
@@ -434,7 +467,7 @@ diagnostics, fault analysis, appropriate interlocking, and compliance
 with applicable railway safety standards. These requirements have not
 been demonstrated by this educational project.
 
-## 14. Conclusion
+## 15. Conclusion
 
 This project demonstrates a modular FSM-based railway level-crossing
 controller with gate-operation timeout detection, fault latching, alarm
